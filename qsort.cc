@@ -1,30 +1,41 @@
 #include<iostream>
+#include<stdio.h>
 #include<cstdlib>
-
+#include<sys/time.h>
+#include<cilk/cilk.h>
 using namespace std;
+
+#define SIZE 1000
+
 int PARTITION(int [],int ,int );
 void QUICKSORT(int [],int ,int );
 int PIVOT(int [],int,int );
 
 int main()
 {
+    struct timeval start,stop;
     int n;
-    cout<<"Enter the size of the array"<<endl;
-    cin>>n;
-    int a[n];
-    cout<<"Enter the elements in the array"<<endl;
-    for(int i=1;i<=n;i++)
+    //cout<<"Enter the size of the array"<<endl;
+    //cin>>n;
+    int a[SIZE];
+    //cout<<"Enter the elements in the array"<<endl;
+    for(int i=1;i<=SIZE;i++)
+
     {
-        cin>>a[i];
+        //cin>>a[i];
+        a[i] = rand() % 100 + 1;
     }
 
     cout<<"sorting using Quick sort"<<endl;
-    int p=1,r=n;
+    int p=1,r=SIZE;
 
+    gettimeofday(&start,NULL);	
     QUICKSORT(a,p,r);
+    gettimeofday(&stop,NULL);
 
+   cout<<"Total time:"<<stop.tv_usec - start.tv_usec<<endl;
    cout<<"sorted form"<<endl;
-   for(int i=1;i<=n;i++)
+   for(int i=1;i<=30;i++)
    {
        cout<<"a["<<i<<"]="<<a[i]<<endl;
    }
@@ -37,8 +48,10 @@ void QUICKSORT(int a[],int p,int r)
         if(p<r)
         {
          q=PIVOT(a,p,r);
-         QUICKSORT(a,p,q-1);
+//         cilk_spawn 
+	 QUICKSORT(a,p,q-1);
          QUICKSORT(a,q+1,r);
+	 //cilk_sync;
         }
     }
 
