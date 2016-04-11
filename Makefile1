@@ -3,9 +3,9 @@ LIBS = -lcilkrts
 
 # add the names of the object files to be generated from your source files
 # (multiple files are OK).
-OBJS = qsort.o 
+OBJS = qsort1.o 
 
-qsort: $(OBJS)
+qsort1: $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LIBS)
 
 %.o : %.cc
