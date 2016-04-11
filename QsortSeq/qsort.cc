@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <sys/time.h>
+#include <cstdlib>
+#include <iostream>
 //void srand( unsigned seed ); 
 
+using namespace std;
 #define N 60000
 
 void quickSort(int arr[], int left, int right);
@@ -11,7 +14,7 @@ int main ()
 	int number[N];
 	int count;
 	struct timeval  start, stop;
-	srand( time(NULL) );
+	//srand( time(NULL) );
 	
 	for (count=0 ; count<N ; count++ )
 	{

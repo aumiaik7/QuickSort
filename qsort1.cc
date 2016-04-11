@@ -11,7 +11,7 @@ using namespace std;
 void srand( unsigned seed ); 
 void swap (int&, int&);
 
-#define N 1000
+#define N 60000
 
 void quickSort(int arr[],int left,int right);
 
@@ -36,7 +36,7 @@ int main ()
 
 	quickSort(number, 0, N-1);
 	//stop = wcgettimeofday();
-	gettimeofday(&stop,NULL);
+	//gettimeofday(&stop,NULL);
 	cout<<"Start Time"<<start.tv_usec<<endl;
 
 	cout<<"End Time"<<stop.tv_usec<<endl;
@@ -46,6 +46,7 @@ int main ()
 	{
 		 printf ("%d, ", number[count]);
 	}
+	gettimeofday(&stop,NULL);
 
 	double time = (stop.tv_sec+(double)stop.tv_usec/1000000) - (start.tv_sec+(double)start.tv_usec/1000000)	;	
 	//printf("time = %g\n", 
@@ -84,8 +85,8 @@ for(int a = 0; a< N ;a++)
 	/* partition */
 
 	cout<<"left = "<<left<<" right = "<<right<<endl;
-	//#pragma cilk grainsize = N 
-	for (int i = left; i<= right; i++) {
+	#pragma cilk grainsize = N 
+	cilk_for (int i = left; i<= right; i++) {
 	    	if(arr[i] < pivot)
 		{
 			//leftVec.push_back(1);
@@ -111,6 +112,7 @@ for(int a = 0; a< N ;a++)
 		}
     		//midVec.push_back(arr.at(i));
       }
+	
 /*
 cout<<"k = "<<k<<" l = "<<l<<" m = "<<m<<endl;
 for(int count = 0; count < k ;count++)
@@ -124,13 +126,13 @@ cout<<rightVec[count]<<" ";
 */
 //#pragma cilk grainsize = N*2
 
-cilk_for (long int leftPart = 0; leftPart < k ; leftPart ++)
+for (long int leftPart = 0; leftPart < k ; leftPart ++)
 	arr[left+leftPart] =  leftVec[leftPart];
 //#pragma cilk grainsize = N*2
-cilk_for (long int midPart = 0; midPart < l; midPart++)
+for (long int midPart = 0; midPart < l; midPart++)
 	arr[left+k+midPart] = midVec[midPart];
 //#pragma cilk grainsize = N*2
-cilk_for (long int rightPart = 0; rightPart < m; rightPart++)
+for (long int rightPart = 0; rightPart < m; rightPart++)
 	arr[left+k+l+rightPart] = rightVec[rightPart];
 
 
@@ -153,7 +155,7 @@ cilk_for (long int rightPart = 0; rightPart < m; rightPart++)
 	       long int r = k+left;
 		//if(k>0)
 		//   r -= 1; 
-		//cilk_spawn 
+//		cilk_spawn 
 		quickSort(arr, left, r-1 );
 	  }	
       //if ((right - rightVec.size()-1) <right)
@@ -168,7 +170,7 @@ cilk_for (long int rightPart = 0; rightPart < m; rightPart++)
 	//	  l-=1;	
             quickSort(arr, lf , right);
 		
-		//cilk_sync;
+	//	cilk_sync;
 	}	//*/
 	
 }
