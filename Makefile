@@ -1,18 +1,20 @@
-CC=g++
-CFLAGS=-c 
+CC = gcc-cilkplus-4.7
+LIBS = -lcilkrts
 
+# add the names of the object files to be generated from your source files
+# (multiple files are OK).
+OBJS = qsort1.o 
 
-all: qsort
+qsort1: $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LIBS)
 
-qsort: qsort1.o 
-	$(CC) qsort1.o -o qsort1
+%.o : %.cc
+	$(CC) -c -o $@ $<
+	$(CC) -MM -MP -MT $@ -MF $(basename $@).d $<
 
-qsort1.o: qsort1.cc
-	$(CC) $(CFLAGS) qsort1.cc -g
+.PHONY : clean
+clean :
+	rm -f *.o *~ *.d qsort
 
-
-clean:
-	rm -rf *.o *~ qsort1
-	 
-
-
+## include the generated dependency files
+-include $(addsuffix .d,$(basename $(OBJS)))
