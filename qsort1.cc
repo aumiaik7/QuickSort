@@ -29,8 +29,10 @@ int main ()
 	/*sets number of cores to be used*/
 	 __cilkrts_set_param("nworkers", "16");
 		
+	/* Gets start time*/
 	gettimeofday(&start,NULL);
 	quickSort(number, 0, N-1);
+	/* Gets stop time*/
 	gettimeofday(&stop,NULL);
 	
 	printf("\n") ;
